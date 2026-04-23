@@ -63,7 +63,7 @@ The codebase is the ROS extension of the following project: https://github.com/A
   map_publisher_node
   (binarize → compute SDF → publish)
   ├──▶ /map_meta   (JSON metadata)  ──┐
-  └──▶ /sdf_grid   (SDF array)     ──┤
+  └──▶ /sdf_grid   (SDF array)      ──┤
                                       ▼
                               rover_pp_node
                               (builds Rover + SCP,
