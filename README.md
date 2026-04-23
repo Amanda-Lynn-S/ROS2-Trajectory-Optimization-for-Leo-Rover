@@ -77,9 +77,53 @@ The codebase is the ROS extension of the following project: https://github.com/A
 
 ---
 
+# Requirements 
+
+- Ubuntu 22.04 or Docker Desktop
+- ROS 2 Jazzy
+
+---
+
+# Setting Up the Workspace
+
+Source the ROS2 installation:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+```
+Create a directory:
+
+```bash
+mkdir -p ~/ros2_ws
+```
+Upload the project:
+
+```bash
+cd ~/ros2_ws
+git clone https://github.com/Amanda-Lynn-S/ROS2-Trajectory-Optimization-for-Leo-Rover.git
+```
+Install missing dependencies for packages in `src` (optional):
+
+```bash
+rosdep install -i --from-path src --rosdistro jazzy -y
+```
+
+Build the workspace (from the root):
+
+```bash
+colcon build --symlink-install
+```
+Source the workspace:
+
+```bash
+source install/local_setup.bash
+```
+
+---
+
 # Running the System
 
-Launch each node in a separate terminal (after building and sourcing both packages):
+Launch each node in a separate terminal (source the workspace first in each terminal):
 
 ```bash
 ros2 run rover_perception mock_cloud_pub
@@ -89,4 +133,5 @@ ros2 run rover_scp map_publisher_node --ros-args -p start_x:=10 -p start_y:=10 -
 ros2 run rover_scp rover_pp_node
 ```
 
-`map_publisher_node` publishes immediately on receiving the first `/height_costmap` message and republishes every 2 seconds. `rover_pp_node` idles until it receives both `/map_meta` and `/sdf_grid`, then runs SCP automatically.
+`map_publisher_node` publishes immediately on receiving the first `/height_costmap` message and republishes every 2 seconds (ros arguments - start and end points - can be chosen as desired). 
+`rover_pp_node` idles until it receives both `/map_meta` and `/sdf_grid`, then runs SCP automatically.
