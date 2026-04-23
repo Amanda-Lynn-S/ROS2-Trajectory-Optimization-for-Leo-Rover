@@ -1,0 +1,76 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fswiss\fcharset0 Helvetica-Oblique;
+}
+{\colortbl;\red255\green255\blue255;\red251\green2\blue7;\red22\green21\blue22;\red246\green246\blue246;
+\red0\green0\blue255;\red255\green255\blue255;\red18\green79\blue146;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c14913\c0;\cssrgb\c11373\c10980\c11373;\cssrgb\c97255\c97255\c97255;
+\cssrgb\c1680\c19835\c100000;\cssrgb\c100000\c100000\c100000;\cssrgb\c7059\c39216\c63922;\cssrgb\c0\c0\c0;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{none\}}{\leveltext\leveltemplateid1\'00;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+
+\f0\b\fs30 \cf2 \expnd0\expndtw0\kerning0
+Leo Rover Documentation:\
+
+\f1\b0 \cf3 https://docs.fictionlab.pl/leo-rover/documentation\cb4 \
+\pard\pardeftab720\partightenfactor0
+\cf3 \
+
+\f0\b \cf5 \cb6 To connect to the Leo rover:
+\f1\b0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0\cf3 \kerning1\expnd0\expndtw0 		- \expnd0\expndtw0\kerning0
+Turn it on by pressing the button on the right (it will be flashing green light)\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 		- \expnd0\expndtw0\kerning0
+Then connect to the wifi (LeoRover-###) the password: \'93password\'94\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 		- \expnd0\expndtw0\kerning0
+Then ssh into the rover (> ssh pi@10.0.0.1), the password: \'93raspberry\'94\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 		- \expnd0\expndtw0\kerning0
+Now you are in (see on the left in the terminal ({\field{\*\fldinst{HYPERLINK "mailto:pi@10.0.0.1"}}{\fldrslt \cf7 pi@10.0.0.1}}\'a0>)\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 		- \expnd0\expndtw0\kerning0
+To access the interface, go to any browser and search \'9310.0.0.1\'94\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 		- \expnd0\expndtw0\kerning0
+You should see a black screen with the voltage displayed on top and you can move it around with the arrow buttons\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 		- \expnd0\expndtw0\kerning0
+To turn it off, in the terminal write \'93exit\'94. Then press the button again to turn it of\cb4 f\cb1 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\cf3 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+
+\f0\b \cf5 How to run:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+
+\f1\b0 \cf5 Step 1:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\cf3 - source /opt/ros/jazzy/setup.bash \'97> 
+\f2\i sourcing ROS in terminal (unless added to bashrc)
+\f1\i0 \
+- source /home/ws/install/setup.bash \'97> 
+\f2\i sourcing workspace (unless added to bashrc)
+\f1\i0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\cf5 Step 2:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\cf3 - Terminal 1: ros2 run rover_perception mock_cloud_pub \'97> 
+\f2\i publishing pt cloud
+\f1\i0 \
+- Terminal 2: ros2 run rover_perception cloud_to_target_frame\
+- Terminal 3: ros2 run rover_perception height_costmap \'97> 
+\f2\i publishing occ grid
+\f1\i0 \
+- Terminal 4: ros2 run rover_scp map_publisher_node \cf8 \kerning1\expnd0\expndtw0 --ros-args -p start_x:=10 -p start_y:=10 -p end_x:=90 -p end_y:=90 \'97> 
+\f2\i publishing map metadata and sdf grid with specification of start and end rover positions (cells)
+\f1\i0 \
+- Terminal 5: ros2 run rover_scp rover_pp_node \'97> 
+\f2\i publishing trajectory-generated control commands to the rover
+\f1\i0 \cf3 \expnd0\expndtw0\kerning0
+\
+\
+\
+\pard\tx560\tx1121\tx1681\tx2242\tx2803\tx3363\tx3924\tx4485\tx5045\tx5606\tx6166\tx6727\tx7288\tx7848\tx8409\tx8970\tx9530\tx10091\tx10651\tx11212\tx11773\tx12333\tx12894\tx13455\tx14015\tx14576\tx15136\tx15697\tx16258\tx16818\tx17379\tx17940\tx18500\tx19061\tx19621\tx20182\tx20743\tx21303\tx21864\tx22425\tx22985\tx23546\tx24106\tx24667\tx25228\tx25788\tx26349\tx26910\tx27470\tx28031\tx28591\tx29152\tx29713\tx30273\tx30834\tx31395\tx31955\tx32516\tx33076\tx33637\tx34198\tx34758\tx35319\tx35880\tx36440\tx37001\tx37561\tx38122\tx38683\tx39243\tx39804\tx40365\tx40925\tx41486\tx42046\tx42607\tx43168\tx43728\tx44289\tx44850\tx45410\tx45971\tx46531\tx47092\tx47653\tx48213\tx48774\tx49335\tx49895\tx50456\tx51016\tx51577\tx52138\tx52698\tx53259\tx53820\tx54380\tx54941\tx55501\tx56062\pardeftab720\slleading20\pardirnatural\partightenfactor0
+
+\fs24 \cf8 \kerning1\expnd0\expndtw0 \
+\
+}
