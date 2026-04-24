@@ -125,8 +125,9 @@ Install missing dependencies for packages in `src` (optional):
 rosdep install -i --from-path src --rosdistro jazzy -y
 ```
 
-Build the workspace (from the root):
+Build the workspace:
 ```bash
+cd ~/ros2_ws
 colcon build --symlink-install
 ```
 
