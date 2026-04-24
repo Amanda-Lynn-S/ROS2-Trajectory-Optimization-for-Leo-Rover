@@ -90,7 +90,7 @@ The perception stack used can be found here: https://github.com/SujayCh07/rover_
 
 # Requirements 
 
-- Ubuntu 22.04 or Docker Desktop
+- Ubuntu 22.04
 - ROS 2 Jazzy
 
 ---
@@ -137,12 +137,21 @@ source install/local_setup.bash
 Launch each node in a separate terminal (source the workspace first in each terminal):
 
 ```bash
-ros2 run rover_perception mock_cloud_pub
-ros2 run rover_perception cloud_to_target_frame
+ros2 launch zed_wrapper zed_camera.launch.py
+```
+```bash
+ros2 run rover_perception cloud_to_target_frame \
+--ros-args \
+-r /point_cloud/cloud_registered:=/zed/zed_node/point_cloud/cloud_registered
+```
+```bash
 ros2 run rover_perception height_costmap
+```
+`map_publisher_node` publishes immediately on receiving the first `/height_costmap` message and republishes every 2 seconds (ros arguments - start and end points - can be chosen as desired):
+```bash
 ros2 run rover_scp map_publisher_node --ros-args -p start_x:=10 -p start_y:=10 -p end_x:=90 -p end_y:=90
+```
+`rover_pp_node` idles until it receives both `/map_meta` and `/sdf_grid`, then runs SCP automatically:
+```bash
 ros2 run rover_scp rover_pp_node
 ```
-
-`map_publisher_node` publishes immediately on receiving the first `/height_costmap` message and republishes every 2 seconds (ros arguments - start and end points - can be chosen as desired). 
-`rover_pp_node` idles until it receives both `/map_meta` and `/sdf_grid`, then runs SCP automatically.
