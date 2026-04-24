@@ -92,40 +92,45 @@ The perception stack used can be found here: https://github.com/SujayCh07/rover_
 
 - Ubuntu 22.04
 - ROS 2 Jazzy
+- Requires the Stereolabs ZED SDK installed on the target Ubuntu machine [Install from: https://www.stereolabs.com/developers/]
 
 ---
 
 # Setting Up the Workspace
 
 Source the ROS2 installation:
-
 ```bash
 source /opt/ros/jazzy/setup.bash
 ```
-Create a directory:
 
+Create a directory:
 ```bash
 mkdir -p ~/ros2_ws
 ```
-Upload the project:
 
+Upload the project:
 ```bash
 cd ~/ros2_ws
 git clone https://github.com/Amanda-Lynn-S/ROS2-Trajectory-Optimization-for-Leo-Rover.git
 ```
-Install missing dependencies for packages in `src` (optional):
 
+Upload the ZED ROS 2 wrapper:
+```bash
+cd ~/ros2_ws/src
+git clone https://github.com/stereolabs/zed-ros2-wrapper.git
+```
+
+Install missing dependencies for packages in `src` (optional):
 ```bash
 rosdep install -i --from-path src --rosdistro jazzy -y
 ```
 
 Build the workspace (from the root):
-
 ```bash
 colcon build --symlink-install
 ```
-Source the workspace:
 
+Source the workspace:
 ```bash
 source install/local_setup.bash
 ```
