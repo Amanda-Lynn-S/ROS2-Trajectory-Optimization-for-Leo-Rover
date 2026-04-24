@@ -3,12 +3,20 @@
 This project implements a **2D rover trajectory optimization framework** using **Sequential Convex Programming (SCP)** with **collision avoidance via Signed Distance Fields (SDFs)**.  
 It follows the methodology of "GuSTO: Guaranteed Sequential Trajectory Optimization via Sequential Convex Programming" (Bonalli et al., ICRA 2019) for safe, smooth, and dynamically consistent path planning. 
 
-The system is implemented as a **ROS2 Jazzy** application split across two packages: **`rover_perception`** (point cloud processing and occupancy grid generation) and **`rover_scp`** (map bridging and trajectory optimization). Each major component runs as a ROS2 node communicating via published and subscribed topics. The perception stack produces a live occupancy grid, the map node bridges it into SDF+metadata, the planning node consumes those to run SCP, and the resulting trajectory is streamed to the rover via `/cmd_vel`.
-The codebase is the ROS extension of the following project: https://github.com/Amanda-Lynn-S/Trajectory-Optimization-for-Leo-Rover
+The system is implemented as a **ROS2 Jazzy** application split across three packages: **`zed-ros2-wrapper package`** (publishing real-time point cloud from camera), **`rover_perception`** (point cloud processing and occupancy grid generation), and **`rover_scp`** (map bridging and trajectory optimization). Each major component runs as a ROS2 node communicating via published and subscribed topics. The perception stack produces a live occupancy grid, the map node bridges it into SDF+metadata, the planning node consumes those to run SCP, and the resulting trajectory is streamed to the rover via `/cmd_vel`.
+
+The codebase is the ROS2 extension of the following project: https://github.com/Amanda-Lynn-S/Trajectory-Optimization-for-Leo-Rover
+The perception stack used can be found here: https://github.com/SujayCh07/rover_perception/tree/main
 
 ---
 
 # Project Overview
+
+## zed-ros2-wrapper package
+
+| Module | ROS2 Role | Description |
+|--------|-----------|-------------|
+| **`zed_camera.launch.py`** | **Publisher** → `/zed/zed_node/point_cloud/cloud_registered` | Launches the ZED ROS 2 wrapper, publishing real-time point cloud data from the camera. This is remapped to `/point_cloud/cloud_registered` for compatibility with the perception pipeline. |
 
 ## rover_perception package
 
@@ -17,6 +25,8 @@ The codebase is the ROS extension of the following project: https://github.com/A
 | **`mock_cloud_pub.py`** | **Publisher** → `/point_cloud/cloud_registered` | Publishes a synthetic PointCloud2 in the ZED optical frame for testing, simulating a flat floor with a raised bump obstacle. |
 | **`cloud_to_target_frame.py`** | **Subscriber** ← `/point_cloud/cloud_registered` · **Publisher** → `/cloud_in_target_frame` | Transforms the incoming point cloud into the target frame using TF2. |
 | **`height_costmap.py`** | **Subscriber** ← `/cloud_in_target_frame` · **Publisher** → `/height_costmap` | Discretizes the point cloud into a 2D grid, estimates floor height via a low percentile of Z values, and marks cells as occupied (cost=100) if their max relative height exceeds a threshold. Publishes a `nav_msgs/OccupancyGrid`. |
+
+**Note:** **`mock_cloud_pub.py`** is only used for testing the framework; otherwise, the ZED ROS 2 wrapper needs to be launched to get a livestream from the camera and perform the correct frame transformation to get the occupancy grid. 
 
 ## rover_scp package
 
