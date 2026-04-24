@@ -53,15 +53,17 @@ To turn it off, in the terminal write \'93exit\'94. Then press the button again 
 \pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
 \cf5 Step 2:\
 \pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
-\cf3 - Terminal 1: ros2 run rover_perception mock_cloud_pub \'97> 
-\f2\i publishing pt cloud
+\cf3 - Terminal 1: ros2 launch zed_wrapper zed_camera.launch.py \'97> 
+\f2\i publishing raw point cloud from camera
 \f1\i0 \
-- Terminal 2: ros2 run rover_perception cloud_to_target_frame\
+- Terminal 2: ros2 run rover_perception cloud_to_target_frame \
+--ros-args \
+-r /point_cloud/cloud_registered:=/zed/zed_node/point_cloud/cloud_registered
 - Terminal 3: ros2 run rover_perception height_costmap \'97> 
-\f2\i publishing occ grid
+\f2\i publishing occupancy grid
 \f1\i0 \
 - Terminal 4: ros2 run rover_scp map_publisher_node \cf8 \kerning1\expnd0\expndtw0 --ros-args -p start_x:=10 -p start_y:=10 -p end_x:=90 -p end_y:=90 \'97> 
-\f2\i publishing map metadata and sdf grid with specification of start and end rover positions (cells)
+\f2\i publishing map metadata and sdf grid with specification of start and end rover positions (in cells)
 \f1\i0 \
 - Terminal 5: ros2 run rover_scp rover_pp_node \'97> 
 \f2\i publishing trajectory-generated control commands to the rover
