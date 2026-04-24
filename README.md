@@ -44,7 +44,8 @@ The perception stack used can be found here: https://github.com/SujayCh07/rover_
 
 | Topic | Type | Direction | Description |
 |-------|------|-----------|-------------|
-| `/point_cloud/cloud_registered` | `sensor_msgs/PointCloud2` | `mock_cloud_pub` → `cloud_to_target_frame` | Raw point cloud in ZED optical frame. |
+| `/zed/zed_node/point_cloud/cloud_registered` | `sensor_msgs/PointCloud2` | `zed_camera.launch.py` → remap | Raw point cloud in ZED optical frame. |
+| `/point_cloud/cloud_registered` | `sensor_msgs/PointCloud2` | remap → `cloud_to_target_frame` | Remapped input topic expected by `cloud_to_target_frame`. |
 | `/cloud_in_target_frame` | `sensor_msgs/PointCloud2` | `cloud_to_target_frame` → `height_costmap` | Point cloud transformed into target frame. |
 | `/height_costmap` | `nav_msgs/OccupancyGrid` | `height_costmap` → `map_publisher_node` | Live occupancy grid: -1=unknown, 0=free, 100=occupied. |
 | `/map_meta` | `std_msgs/String` | `map_publisher_node` → `rover_pp_node` | JSON string containing map width, height, cell size, and start/end grid coordinates. |
